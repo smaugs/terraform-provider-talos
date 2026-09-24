@@ -84,9 +84,9 @@ Alternatively, use `terraform apply -parallelism=1` to force all resource operat
 
 ## Serializing OS upgrades
 
-Set `serialize_upgrades = true` on worker resources to upgrade them one at a time,
-including workers managed with `for_each`. Omitted or `false` preserves concurrent
-upgrades.
+Set `serialize_upgrades = true` on `talos_machine` resources to upgrade them one at
+a time, including resources managed with `for_each`. This option applies to both
+control-plane and worker machines. Omitted or `false` preserves concurrent upgrades.
 
 On Talos 1.13 and newer, image pull and installation remain concurrent. Only the
 existing cordon/drain, reboot, recovery and uncordon sequence is serialized. On
@@ -103,8 +103,9 @@ clusters. Separate provider processes and concurrent applies do not coordinate.
 There is no defined upgrade order or availability budget. Existing drain and
 recovery behavior is unchanged. Configuration changes, initial installation and
 destruction are not serialized; any OS upgrade performed during creation is covered.
-Changing only this option does not trigger an upgrade. Keep explicit control-plane
-ordering where required.
+Changing only this option does not trigger an upgrade. You choose which machines
+participate and whether to define explicit dependencies for a particular upgrade
+order.
 
 ## Kubernetes component image management
 
